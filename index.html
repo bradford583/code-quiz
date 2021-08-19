@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Code Quiz</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+</head>
+
+<body>
+    <div id="container">
+
+        <button id="start-btn">Start Quiz!</button>
+
+        <div id="quiz" class="hidden">
+
+            <h2 id="question"></h2>
+
+            <div id="choices">
+
+                <button class="choice" id="A" onclick="compareAnswer('A')"></button>
+
+                <button class="choice" id="B" onclick="compareAnswer('B')"></button>
+
+                <button class="choice" id="C" onclick="compareAnswer('C')"></button>
+
+            </div>
+
+            <div id="timer">
+
+                <div id="counter"></div>
+
+                <div id="btimeGauge"></div>
+
+                <div id="timeGauge"></div>
+
+            </div>
+
+            <div id="progress"></div>
+
+        </div>
+
+        <div id="scoreContainer" style="display: none"></div>
+
+    </div>
+    
+    <script src="assets/script.js"></script>
+</body>
+
+</html>
