@@ -89,16 +89,14 @@ function renderQuestion() {
 
 //function for timer
 function setTimer() {
-    timeInterval = setTimeout(function () {
-        setInterval(function () {
-            timeLeft--;
-            console.log(timeLeft);
-            //stop timer at 0
-            if (timeLeft <= 0) {
-                clearInterval(timeInterval);
-            }
-        }, 1000);
-    })
+    timeInterval = setInterval(function () {
+        timeLeft--;
+        console.log(timeLeft);
+        //stop timer at 0
+        if (timeLeft <= 0) {
+            clearInterval(timeInterval);
+        }
+    }, 1000);
 }
 
 function startGame() {
@@ -107,14 +105,15 @@ function startGame() {
     setTimer();
     renderQuestion();
 }
-function gameOver () {
-    timeLeft = 0;
+function gameOver() {
+    timeLeft = 1;
+
 };
 
 //compares answers and renders next question or game over
 function compareAnswer(userAnswer) {
-    if (questions[runningQuestion -1].correct !== userAnswer) {
-        timeLeft= timeLeft-15;
+    if (questions[runningQuestion - 1].correct !== userAnswer) {
+        timeLeft = timeLeft - 15;
     }
 
     if (runningQuestion < questions.length) {
