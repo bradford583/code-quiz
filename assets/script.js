@@ -10,15 +10,17 @@ const choiceB = document.querySelector("#B");
 
 const choiceC = document.querySelector("#C");
 
-const counter = document.querySelector("#counter");
-
-const timeGauge = document.querySelector("#timeGauge");
-
 const progress = document.querySelector("#progress");
 
 const scoreDiv = document.querySelector("#scoreContainer");
 
+const timerDiv = document.querySelector("#timer");
+
+var timeInterval;
+
 let playerScore = 0;
+
+let timeLeft = 60;
 
 let questions = [
 
@@ -64,13 +66,12 @@ let questions = [
 
 const lastQuestion = questions.length - 1;
 
-let runningQuestion = 0;
+let runningQuestion;
 
 
 // render a question
 
 function renderQuestion() {
-
     quiz.classList.remove('hidden')
 
     let q = questions[runningQuestion];
@@ -83,46 +84,47 @@ function renderQuestion() {
 
     choiceC.textContent = q.choiceC;
 
-
-
+    runningQuestion++;
 }
 
+//function for timer
 function setTimer() {
-
+    timeInterval = setTimeout(function () {
+        setInterval(function () {
+            timeLeft--;
+            console.log(timeLeft);
+            //stop timer at 0
+            if (timeLeft <= 0) {
+                clearInterval(timeInterval);
+            }
+        }, 1000);
+    })
 }
 
 function startGame() {
-    runningQuestion = 0
+    runningQuestion = 0;
     playerScore = 0;
-    //setTimer()
+    setTimer();
     renderQuestion();
 }
+function gameOver () {
+    timeLeft = 0;
+};
 
-function compareAnswer(event) {
-    
-    console.log(runningQuestion)
+//compares answers and renders next question or game over
+function compareAnswer(userAnswer) {
+    if (questions[runningQuestion -1].correct !== userAnswer) {
+        timeLeft= timeLeft-15;
+    }
+
     if (runningQuestion < questions.length) {
         renderQuestion();
     } else {
-        //game end
+        gameOver();
         console.log("gameover")
     }
-    runningQuestion++;
-    console.log(event);
 };
 
 start.addEventListener("click", function () {
-    startGame()
+    startGame();
 });
-
-choiceA.addEventListener("click", function () {
-    compareAnswer(event);
-})
-choiceB.addEventListener("click", function () {
-
-})
-choiceC.addEventListener("click", function () {
-
-})
-
-//git remote add origin 
