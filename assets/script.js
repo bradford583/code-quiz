@@ -1,3 +1,4 @@
+//global variables
 const start = document.querySelector("#start-btn");
 
 const quiz = document.querySelector("#quiz");
@@ -12,9 +13,11 @@ const choiceC = document.querySelector("#C");
 
 const progress = document.querySelector("#progress");
 
-const scoreDiv = document.querySelector("#scoreContainer");
+const playerScoreDiv = document.querySelector("#playerScore");
 
-const timerDiv = document.querySelector("#timer");
+const timerDiv = document.querySelector("#timeOut");
+
+const leaderBoardDiv = document.querySelector("#leaderBoard");
 
 var timeInterval;
 
@@ -22,17 +25,18 @@ let playerScore = 0;
 
 let timeLeft = 60;
 
+//array of questions
 let questions = [
 
     {
 
         question: "What does HTML stand for?",
 
-        choiceA: "Correct",
+        choiceA: "Hyper Text Markup Language",
 
-        choiceB: "Wrong",
+        choiceB: "Hang Tight My Lad",
 
-        choiceC: "Wrong",
+        choiceC: "Hail To My Lord",
 
         correct: "A"
 
@@ -40,11 +44,11 @@ let questions = [
 
         question: "What does CSS stand for?",
 
-        choiceA: "Wrong",
+        choiceA: "Car Should Stop",
 
-        choiceB: "Correct",
+        choiceB: "Cascading Style Sheet",
 
-        choiceC: "Wrong",
+        choiceC: "Cats So Sick",
 
         correct: "B"
 
@@ -52,16 +56,15 @@ let questions = [
 
         question: "What does JS stand for?",
 
-        choiceA: "Wrong",
+        choiceA: "Just Stellar",
 
-        choiceB: "Wrong",
+        choiceB: "Judicial System",
 
-        choiceC: "Correct",
+        choiceC: "Javascript",
 
         correct: "C"
 
     }
-
 ];
 
 const lastQuestion = questions.length - 1;
@@ -70,7 +73,6 @@ let runningQuestion;
 
 
 // render a question
-
 function renderQuestion() {
     quiz.classList.remove('hidden')
 
@@ -91,7 +93,7 @@ function renderQuestion() {
 function setTimer() {
     timeInterval = setInterval(function () {
         timeLeft--;
-        console.log(timeLeft);
+        timerDiv.textContent = timeLeft;
         //stop timer at 0
         if (timeLeft <= 0) {
             clearInterval(timeInterval);
@@ -99,21 +101,44 @@ function setTimer() {
     }, 1000);
 }
 
+//start game function
 function startGame() {
     runningQuestion = 0;
     playerScore = 0;
     setTimer();
     renderQuestion();
-}
+};
+
+//game over function
 function gameOver() {
     timeLeft = 1;
+    var initials= prompt("Enter Player Initials.");
+    if (initials !== null) {
+        //get player initials and score and combine into obj
+        var scoreObj = {
+            "Initials": initials,
+            "Score": playerScore
+        };
+        //send to localStorage
+        localStorage.setItem("Scores", JSON.stringify(scoreObj));
+    } 
+    displayLeaderboard();
+};
 
+//Leaderboard Display
+function displayLeaderboard() {
+    var userScores = localStorage.getItem("Scores");
+    console.log(userScores);
+    //leaderBoardDiv.textContent = JSON.stringify(userScores);
 };
 
 //compares answers and renders next question or game over
 function compareAnswer(userAnswer) {
     if (questions[runningQuestion - 1].correct !== userAnswer) {
         timeLeft = timeLeft - 15;
+    } else {
+        playerScore++;
+        console.log(playerScore);
     }
 
     if (runningQuestion < questions.length) {
@@ -124,6 +149,7 @@ function compareAnswer(userAnswer) {
     }
 };
 
+//starts game when button is clicked
 start.addEventListener("click", function () {
     startGame();
 });
