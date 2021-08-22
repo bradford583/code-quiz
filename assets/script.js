@@ -19,6 +19,8 @@ const timerDiv = document.querySelector("#timeOut");
 
 const leaderBoardDiv = document.querySelector("#leaderBoard");
 
+var scoresArr = [];
+
 var timeInterval;
 
 let playerScore = 0;
@@ -112,15 +114,20 @@ function startGame() {
 //game over function
 function gameOver() {
     timeLeft = 1;
+    if(JSON.parse(localStorage.getItem("Scores")) !== null) {
+        scoresArr.push(JSON.parse(localStorage.getItem("Scores")));
+    }
     var initials= prompt("Enter Player Initials.");
     if (initials !== null) {
         //get player initials and score and combine into obj
         var scoreObj = {
             "Initials": initials,
             "Score": playerScore
-        };
+        }; 
+
+        scoresArr.push(scoreObj)
         //send to localStorage
-        localStorage.setItem("Scores", JSON.stringify(scoreObj));
+        localStorage.setItem("Scores", JSON.stringify(scoresArr));
     } 
     displayLeaderboard();
 };
@@ -128,8 +135,7 @@ function gameOver() {
 //Leaderboard Display
 function displayLeaderboard() {
     var userScores = localStorage.getItem("Scores");
-    console.log(userScores);
-    //leaderBoardDiv.textContent = JSON.stringify(userScores);
+    leaderBoardDiv.textContent = JSON.stringify(userScores);
 };
 
 //compares answers and renders next question or game over
