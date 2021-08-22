@@ -115,7 +115,7 @@ function startGame() {
 function gameOver() {
     timeLeft = 1;
     if(JSON.parse(localStorage.getItem("Scores")) !== null) {
-        scoresArr.push(JSON.parse(localStorage.getItem("Scores")));
+        scoresArr = JSON.parse(localStorage.getItem("Scores"));
     }
     var initials= prompt("Enter Player Initials.");
     if (initials !== null) {
@@ -136,6 +136,7 @@ function gameOver() {
 function displayLeaderboard() {
     var userScores = localStorage.getItem("Scores");
     leaderBoardDiv.textContent = JSON.stringify(userScores);
+    console.log(userScores);
 };
 
 //compares answers and renders next question or game over
